@@ -1,6 +1,6 @@
+import 'package:blog/app_router.dart';
 import 'package:blog/core/theme/app_theme.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:blog/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:blog/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +12,7 @@ void main() async {
     BlocProvider(
       create: (_) => AuthBloc(
         signUp: sl(),
+        signIn: sl(),
       ),
     )
   ], child: const MyApp()));
@@ -22,11 +23,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Blog App',
+      onGenerateTitle: (context) => 'Blog App',
       theme: AppTheme.darkThemeMode,
-      home: const SignUpPage(),
+      routerConfig: goRoute,
     );
   }
 }

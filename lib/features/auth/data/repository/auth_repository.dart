@@ -27,4 +27,21 @@ class AuthRepository implements BaseAuthRepository {
       return left(Failure(message: e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, UserModel>> signInWithEmailPasswrod({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final user = await authRemoteDataSource.signInWithEmailPassword(
+        email: email,
+        password: password,
+      );
+
+      return right(user);
+    } on ServerException catch (e) {
+      return left(Failure(message: e.message));
+    }
+  }
 }
