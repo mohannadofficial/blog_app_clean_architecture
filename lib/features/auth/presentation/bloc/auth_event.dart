@@ -8,7 +8,7 @@ sealed class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SignUpEvent extends AuthEvent {
+final class SignUpEvent extends AuthEvent {
   final String name;
   final String email;
   final String password;
@@ -23,7 +23,7 @@ class SignUpEvent extends AuthEvent {
   List<Object> get props => [name, email, password];
 }
 
-class SignInEvent extends AuthEvent {
+final class SignInEvent extends AuthEvent {
   final String email;
   final String password;
 
@@ -34,4 +34,9 @@ class SignInEvent extends AuthEvent {
 
   @override
   List<Object> get props => [email, password];
+}
+
+final class GetCurrentUserEvent extends AuthEvent {
+  @override
+  List<Object> get props => [];
 }

@@ -1,4 +1,5 @@
 import 'package:blog/app_router.dart';
+import 'package:blog/core/common/cubit/app_user_cubit.dart';
 import 'package:blog/core/theme/app_theme.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog/init_dependencies.dart';
@@ -10,10 +11,16 @@ void main() async {
   await initDependencies();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
+      create: (context) => sl<AppUserCubit>(),
+      lazy: false,
+    ),
+    BlocProvider(
       create: (_) => AuthBloc(
         signUp: sl(),
         signIn: sl(),
-      ),
+        appUserCubit: sl(),
+        getCurrentUser: sl(),
+      )..add(GetCurrentUserEvent()),
     )
   ], child: const MyApp()));
 }
