@@ -2,6 +2,7 @@ import 'package:blog/app_router.dart';
 import 'package:blog/core/common/cubit/app_user_cubit.dart';
 import 'package:blog/core/theme/app_theme.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog/features/blog/presenation/bloc/blog_bloc.dart';
 import 'package:blog/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,11 @@ void main() async {
         appUserCubit: sl(),
         getCurrentUser: sl(),
       )..add(GetCurrentUserEvent()),
+    ),
+    BlocProvider(
+      create: (context) => BlogBloc(
+        addNewBlog: sl(),
+      ),
     )
   ], child: const MyApp()));
 }

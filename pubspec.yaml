@@ -41,6 +41,9 @@ dependencies:
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
   go_router: ^14.1.4
+  dotted_border: ^2.1.0
+  image_picker: ^1.1.2
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
