@@ -26,16 +26,16 @@ class BlogPage extends StatelessWidget {
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
-          if (state is BlogFailure) {
+          if (state.submissionStatus == SubmissionStatus.error) {
             showSnackBar(context: context, text: state.error);
           }
         },
         builder: (context, state) {
-          if (state is BlogLoading) {
+          if (state.submissionStatus == SubmissionStatus.inProgress) {
             return const Loader();
           }
 
-          if (state is BlogFetchSuccess) {
+          if (state.submissionStatus == SubmissionStatus.loaded) {
             return ListView.builder(
               itemCount: state.blogs.length,
               itemBuilder: (context, index) {

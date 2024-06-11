@@ -1,3 +1,4 @@
+import 'package:blog/core/constants/constants.dart';
 import 'package:blog/core/error/exception.dart';
 import 'package:blog/core/error/failure.dart';
 import 'package:blog/core/network/connection_checker.dart';
@@ -9,7 +10,9 @@ import 'package:fpdart/fpdart.dart';
 
 class AuthRepository implements BaseAuthRepository {
   final BaseAuthRemoteDataSource authRemoteDataSource;
-  AuthRepository({required this.authRemoteDataSource});
+  final BaseConnectionChecker connectionChecker;
+  AuthRepository(
+      {required this.authRemoteDataSource, required this.connectionChecker});
 
   @override
   Future<Either<Failure, UserModel>> signUpWithEmailPasswrod({
@@ -18,6 +21,11 @@ class AuthRepository implements BaseAuthRepository {
     required String password,
   }) async {
     try {
+      if (!await (connectionChecker.isConnected)) {
+        return left(Failure(
+          message: Constants.noConnectionErrorMessage,
+        ));
+      }
       final user = await authRemoteDataSource.signUpWithEmailPassword(
         email: email,
         name: name,
@@ -36,6 +44,13 @@ class AuthRepository implements BaseAuthRepository {
     required String password,
   }) async {
     try {
+      if (!await (connectionChecker.isConnected)) {
+        return left(
+          Failure(
+            message: Constants.noConnectionErrorMessage,
+          ),
+        );
+      }
       final user = await authRemoteDataSource.signInWithEmailPassword(
         email: email,
         password: password,
@@ -50,9 +65,23 @@ class AuthRepository implements BaseAuthRepository {
   @override
   Future<Either<Failure, User>> getCurrentUser() async {
     try {
+      if (!await (connectionChecker.isConnected)) {
+        final session = authRemoteDataSource.currentUserSession;
+        if (session == null) {
+          return Left(Failure(message: Constants.nUserNotLoggedIn));
+        }
+
+        return right(
+          UserModel(
+            id: session.user.id,
+            email: session.user.email ?? '',
+            name: '',
+          ),
+        );
+      }
       final user = await authRemoteDataSource.getCurrentUser();
       if (user == null) {
-        return left(Failure(message: 'User not logged in'));
+        return left(Failure(message: Constants.nUserNotLoggedIn));
       }
       return right(user);
     } on ServerException catch (e) {

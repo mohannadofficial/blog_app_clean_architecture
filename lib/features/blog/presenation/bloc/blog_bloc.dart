@@ -19,8 +19,9 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       required GetAllBlogUsecase getAllBlog})
       : _addNewBlog = addNewBlog,
         _getAllBlog = getAllBlog,
-        super(BlogInitial()) {
-    on<BlogEvent>((_, emit) => emit(BlogLoading()));
+        super(const BlogState()) {
+    on<BlogEvent>((_, emit) =>
+        emit(state.copyWith(submissionStatus: SubmissionStatus.inProgress)));
     on<AddNewBlogEvent>(_createNewBlog);
     on<GetAllBlogEvent>(_fetchAllBlog);
   }
@@ -37,8 +38,12 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     );
 
     res.fold(
-      (l) => emit(BlogFailure(error: l.message)),
-      (r) => emit(BlogUploadSuccess()),
+      (l) => emit(state.copyWith(
+          error: l.message, submissionStatus: SubmissionStatus.error)),
+      (r) => emit(state.copyWith(
+        blogs: [r, ...state.blogs],
+        submissionStatus: SubmissionStatus.loaded,
+      )),
     );
   }
 
@@ -46,8 +51,12 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     final res = await _getAllBlog(NoParams());
 
     res.fold(
-      (l) => emit(BlogFailure(error: l.message)),
-      (r) => emit(BlogFetchSuccess(blogs: r)),
+      (l) => emit(state.copyWith(
+          error: l.message, submissionStatus: SubmissionStatus.error)),
+      (r) => emit(state.copyWith(
+        blogs: r,
+        submissionStatus: SubmissionStatus.loaded,
+      )),
     );
   }
 }

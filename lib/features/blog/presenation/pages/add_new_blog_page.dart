@@ -84,14 +84,14 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
         ),
         body: BlocConsumer<BlogBloc, BlogState>(
           listener: (context, state) {
-            if (state is BlogFailure) {
+            if (state.submissionStatus == SubmissionStatus.error) {
               showSnackBar(context: context, text: state.error);
-            } else if (state is BlogUploadSuccess) {
+            } else if (state.submissionStatus == SubmissionStatus.loaded) {
               context.goNamed(AppRouter.blog.name);
             }
           },
           builder: (context, state) {
-            if (state is BlogLoading) {
+            if (state.submissionStatus == SubmissionStatus.inProgress) {
               return const Loader();
             }
             return SingleChildScrollView(

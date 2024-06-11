@@ -1,36 +1,30 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'blog_bloc.dart';
 
-sealed class BlogState extends Equatable {
-  const BlogState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class BlogInitial extends BlogState {
-  @override
-  List<Object> get props => [];
-}
-
-final class BlogLoading extends BlogState {
-  @override
-  List<Object> get props => [];
-}
-
-final class BlogUploadSuccess extends BlogState {}
-
-final class BlogFetchSuccess extends BlogState {
+class BlogState extends Equatable {
   final List<Blog> blogs;
-
-  const BlogFetchSuccess({required this.blogs});
-
-  @override
-  List<Object> get props => [blogs];
-}
-
-final class BlogFailure extends BlogState {
+  final SubmissionStatus submissionStatus;
   final String error;
-  const BlogFailure({required this.error});
+  const BlogState({
+    this.blogs = const [],
+    this.submissionStatus = SubmissionStatus.idle,
+    this.error = '',
+  });
+
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [blogs, submissionStatus, error];
+
+  BlogState copyWith({
+    List<Blog>? blogs,
+    SubmissionStatus? submissionStatus,
+    String? error,
+  }) {
+    return BlogState(
+      blogs: blogs ?? this.blogs,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
+      error: error ?? this.error,
+    );
+  }
 }
+
+enum SubmissionStatus { idle, inProgress, loaded, error }

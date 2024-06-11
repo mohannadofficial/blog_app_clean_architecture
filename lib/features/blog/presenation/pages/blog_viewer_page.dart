@@ -14,11 +14,10 @@ class BlogViewerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BlogBloc, BlogState>(
       builder: (context, state) {
-        final blog = (state as BlogFetchSuccess).blogs.firstWhere(
-              (element) => element.id == id,
-            );
+        final blog = state.blogs.firstWhere(
+          (element) => element.id == id,
+        );
 
-        print(blog.imageUrl);
         return Scaffold(
           appBar: AppBar(),
           body: Scrollbar(
