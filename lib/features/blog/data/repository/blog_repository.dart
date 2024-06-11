@@ -44,4 +44,14 @@ class BlogRepository implements BaseBlogRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, List<Blog>>> getAllBlog() async {
+    try {
+      final blogs = await blogRemoteDataSource.getAllBlog();
+      return right(blogs);
+    } on ServerException catch (e) {
+      return Left(Failure(message: e.message));
+    }
+  }
 }

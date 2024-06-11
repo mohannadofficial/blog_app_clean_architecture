@@ -31,3 +31,8 @@ final class AddNewBlogEvent extends BlogEvent {
         topics,
       ];
 }
+
+final class GetAllBlogEvent extends BlogEvent {
+  @override
+  List<Object> get props => [];
+}

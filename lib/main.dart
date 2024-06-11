@@ -26,7 +26,8 @@ void main() async {
     BlocProvider(
       create: (context) => BlogBloc(
         addNewBlog: sl(),
-      ),
+        getAllBlog: sl(),
+      )..add(GetAllBlogEvent()),
     )
   ], child: const MyApp()));
 }

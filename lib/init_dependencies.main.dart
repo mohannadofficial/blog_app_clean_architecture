@@ -71,5 +71,10 @@ void _initBlog() {
       () => AddNewBlogUsecase(
         blogRepository: sl(),
       ),
+    )
+    ..registerLazySingleton<GetAllBlogUsecase>(
+      () => GetAllBlogUsecase(
+        blogRepository: sl(),
+      ),
     );
 }

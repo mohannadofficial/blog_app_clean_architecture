@@ -10,6 +10,7 @@ import 'package:blog/features/blog/data/datasources/blog_remote_data_source.dart
 import 'package:blog/features/blog/data/repository/blog_repository.dart';
 import 'package:blog/features/blog/domain/repository/base_blog_repository.dart';
 import 'package:blog/features/blog/domain/usecases/add_new_blog_usecase.dart';
+import 'package:blog/features/blog/domain/usecases/get_all_blog_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
