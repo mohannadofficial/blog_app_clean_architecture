@@ -12,8 +12,8 @@ class EditBlogUsecase implements BaseUsecase<Blog, EditBlogParams> {
   EditBlogUsecase({required this.blogRepository});
 
   @override
-  Future<Either<Failure, Blog>> call(EditBlogParams params) {
-    return blogRepository.editBlog(
+  Future<Either<Failure, Blog>> call(EditBlogParams params) async {
+    return await blogRepository.editBlog(
       id: params.id,
       title: params.title,
       image: params.image,

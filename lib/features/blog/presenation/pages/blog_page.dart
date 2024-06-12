@@ -13,6 +13,14 @@ import 'package:go_router/go_router.dart';
 class BlogPage extends StatelessWidget {
   const BlogPage({super.key});
 
+  void deleteBlog({required BuildContext context, required String id}) {
+    context.read<BlogBloc>().add(
+          DeleteBlogEvent(
+            id: id,
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final userId =
@@ -43,9 +51,11 @@ class BlogPage extends StatelessWidget {
               itemCount: state.blogs.length,
               itemBuilder: (context, index) {
                 final blog = state.blogs[index];
+
                 return BlogCard(
                   blog: blog,
-                  isOwn: blog.id == userId,
+                  isOwn: blog.posterId == userId,
+                  function: () => deleteBlog(context: context, id: blog.id),
                   color: index % 2 == 0
                       ? AppPallete.gradient1
                       : AppPallete.gradient2,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:blog/core/usecase/base_usecase.dart';
 import 'package:blog/features/blog/domain/entities/blog.dart';
 import 'package:blog/features/blog/domain/usecases/add_new_blog_usecase.dart';
+import 'package:blog/features/blog/domain/usecases/delete_blog_usecase.dart';
 import 'package:blog/features/blog/domain/usecases/edit_blog_usecase.dart';
 import 'package:blog/features/blog/domain/usecases/get_all_blog_usecase.dart';
 import 'package:equatable/equatable.dart';
@@ -16,19 +17,23 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
   final AddNewBlogUsecase _addNewBlog;
   final GetAllBlogUsecase _getAllBlog;
   final EditBlogUsecase _editBlog;
+  final DeleteBlogUsecase _deleteBlog;
 
-  BlogBloc(
-      {required AddNewBlogUsecase addNewBlog,
-      required GetAllBlogUsecase getAllBlog,
-      required EditBlogUsecase editBlog})
-      : _addNewBlog = addNewBlog,
+  BlogBloc({
+    required AddNewBlogUsecase addNewBlog,
+    required GetAllBlogUsecase getAllBlog,
+    required EditBlogUsecase editBlog,
+    required DeleteBlogUsecase deleteBlog,
+  })  : _addNewBlog = addNewBlog,
         _getAllBlog = getAllBlog,
         _editBlog = editBlog,
+        _deleteBlog = deleteBlog,
         super(const BlogState()) {
     on<BlogEvent>((_, emit) =>
         emit(state.copyWith(submissionStatus: SubmissionStatus.inProgress)));
     on<AddNewBlogEvent>(_createNewBlog);
     on<EditBlogEvent>(_updateBlog);
+    on<DeleteBlogEvent>(_removeBlog);
     on<GetAllBlogEvent>(_fetchAllBlog);
   }
 
@@ -72,6 +77,21 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       (r) => emit(state.copyWith(
         blogs: [
           r,
+          ...state.blogs.filter((e) => e.id != r.id),
+        ],
+        submissionStatus: SubmissionStatus.loaded,
+      )),
+    );
+  }
+
+  void _removeBlog(DeleteBlogEvent event, Emitter<BlogState> emit) async {
+    final res = await _deleteBlog(event.id);
+
+    res.fold(
+      (l) => emit(state.copyWith(
+          error: l.message, submissionStatus: SubmissionStatus.error)),
+      (r) => emit(state.copyWith(
+        blogs: [
           ...state.blogs.filter((e) => e.id != r.id),
         ],
         submissionStatus: SubmissionStatus.loaded,

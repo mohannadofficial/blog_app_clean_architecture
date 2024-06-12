@@ -28,6 +28,7 @@ void main() async {
         addNewBlog: sl(),
         getAllBlog: sl(),
         editBlog: sl(),
+        deleteBlog: sl(),
       )..add(GetAllBlogEvent()),
     )
   ], child: const MyApp()));

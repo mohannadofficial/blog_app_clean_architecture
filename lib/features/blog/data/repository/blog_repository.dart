@@ -93,8 +93,6 @@ class BlogRepository implements BaseBlogRepository {
         );
       }
 
-      print(title);
-
       BlogModel blogModel = BlogModel(
         id: id,
         content: content,
@@ -121,6 +119,21 @@ class BlogRepository implements BaseBlogRepository {
       return left(
         Failure(message: e.message),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, Blog>> deleteBlog({required String id}) async {
+    try {
+      if (!await (connectionChecker.isConnected)) {
+        return left(
+          Failure(message: Constants.noConnectionErrorMessage),
+        );
+      }
+      final blog = await blogRemoteDataSource.deleteBlog(id: id);
+      return right(blog);
+    } on ServerException catch (e) {
+      return left(Failure(message: e.message));
     }
   }
 }

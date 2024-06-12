@@ -9,11 +9,13 @@ class BlogCard extends StatelessWidget {
   final Blog blog;
   final Color color;
   final bool isOwn;
+  final VoidCallback? function;
   const BlogCard({
     super.key,
     required this.blog,
     required this.color,
     this.isOwn = false,
+    this.function,
   });
 
   @override
@@ -55,17 +57,26 @@ class BlogCard extends StatelessWidget {
             ),
             const Spacer(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('${calculateReadingTime(blog.content)} min'),
-                IconButton(
-                  icon: const Icon(
-                    Icons.edit,
-                    color: AppPallete.whiteColor,
+                if (isOwn) ...[
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                      color: AppPallete.whiteColor,
+                    ),
+                    onPressed: () => context.pushNamed(AppRouter.editBlog.name,
+                        pathParameters: {'id': blog.id}),
                   ),
-                  onPressed: () => context.pushNamed(AppRouter.editBlog.name,
-                      pathParameters: {'id': blog.id}),
-                )
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: AppPallete.whiteColor,
+                    ),
+                    onPressed: function,
+                  ),
+                ]
               ],
             ),
           ],

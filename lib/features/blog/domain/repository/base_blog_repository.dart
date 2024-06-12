@@ -23,4 +23,5 @@ abstract interface class BaseBlogRepository {
     String? imageUrl,
     required List<String> topics,
   });
+  Future<Either<Failure, Blog>> deleteBlog({required String id});
 }

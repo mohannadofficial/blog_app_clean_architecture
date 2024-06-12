@@ -67,3 +67,10 @@ final class EditBlogEvent extends BlogEvent {
         topics,
       ];
 }
+
+final class DeleteBlogEvent extends BlogEvent {
+  final String id;
+  const DeleteBlogEvent({required this.id});
+  @override
+  List<Object> get props => [id];
+}

@@ -13,6 +13,7 @@ abstract interface class BaseBlogRemoteDataSource {
   });
   Future<List<BlogModel>> getAllBlog();
   Future<BlogModel> editBlog({required BlogModel blog});
+  Future<BlogModel> deleteBlog({required String id});
 }
 
 class BlogRemoteDataSource implements BaseBlogRemoteDataSource {
@@ -82,7 +83,21 @@ class BlogRemoteDataSource implements BaseBlogRemoteDataSource {
 
       final blogModel = BlogModel.fromJson(blogData.first);
 
-      print(blogModel.toJson().toString());
+      return blogModel;
+    } on PostgrestException catch (e) {
+      throw ServerException(message: e.message);
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<BlogModel> deleteBlog({required String id}) async {
+    try {
+      final blogData =
+          await supabaseClient.from('blogs').delete().eq('id', id).select();
+
+      final blogModel = BlogModel.fromJson(blogData.first);
 
       return blogModel;
     } on PostgrestException catch (e) {

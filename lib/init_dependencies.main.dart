@@ -109,5 +109,10 @@ void _initBlog() {
       () => EditBlogUsecase(
         blogRepository: sl(),
       ),
+    )
+    ..registerLazySingleton<DeleteBlogUsecase>(
+      () => DeleteBlogUsecase(
+        blogRepository: sl(),
+      ),
     );
 }
