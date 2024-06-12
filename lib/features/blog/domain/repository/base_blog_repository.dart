@@ -14,4 +14,13 @@ abstract interface class BaseBlogRepository {
   });
 
   Future<Either<Failure, List<Blog>>> getAllBlog();
+  Future<Either<Failure, Blog>> editBlog({
+    required String id,
+    required String title,
+    required String content,
+    required String posterId,
+    File? image,
+    String? imageUrl,
+    required List<String> topics,
+  });
 }

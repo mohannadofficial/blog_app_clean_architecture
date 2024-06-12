@@ -45,6 +45,8 @@ dependencies:
   uuid: ^4.4.0
   intl_messages: ^2.3.0
   internet_connection_checker_plus: ^2.3.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:blog/app_router.dart';
+import 'package:blog/core/common/cubit/app_user_cubit.dart';
 import 'package:blog/core/common/widgets/loader.dart';
 import 'package:blog/core/theme/app_pallete.dart';
 import 'package:blog/core/utils/show_snackbar.dart';
@@ -14,6 +15,8 @@ class BlogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userId =
+        (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Blog App'),
@@ -42,6 +45,7 @@ class BlogPage extends StatelessWidget {
                 final blog = state.blogs[index];
                 return BlogCard(
                   blog: blog,
+                  isOwn: blog.id == userId,
                   color: index % 2 == 0
                       ? AppPallete.gradient1
                       : AppPallete.gradient2,

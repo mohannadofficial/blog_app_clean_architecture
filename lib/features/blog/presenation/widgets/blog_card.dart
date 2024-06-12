@@ -1,4 +1,5 @@
 import 'package:blog/app_router.dart';
+import 'package:blog/core/theme/app_pallete.dart';
 import 'package:blog/core/utils/calculate_reading_time.dart';
 import 'package:blog/features/blog/domain/entities/blog.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,13 @@ import 'package:go_router/go_router.dart';
 class BlogCard extends StatelessWidget {
   final Blog blog;
   final Color color;
-  const BlogCard({super.key, required this.blog, required this.color});
+  final bool isOwn;
+  const BlogCard({
+    super.key,
+    required this.blog,
+    required this.color,
+    this.isOwn = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +54,20 @@ class BlogCard extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Text('${calculateReadingTime(blog.content)} min'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('${calculateReadingTime(blog.content)} min'),
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit,
+                    color: AppPallete.whiteColor,
+                  ),
+                  onPressed: () => context.pushNamed(AppRouter.editBlog.name,
+                      pathParameters: {'id': blog.id}),
+                )
+              ],
+            ),
           ],
         ),
       ),

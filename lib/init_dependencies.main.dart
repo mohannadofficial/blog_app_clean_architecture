@@ -3,10 +3,15 @@ part of 'init_dependencies.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
+  await Hive.initFlutter();
+
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
   );
+
+  final box = await Hive.openBox('blogs');
+
   // SupaBase
   sl.registerLazySingleton<SupabaseClient>(
     () => supabase.client,
@@ -15,6 +20,10 @@ Future<void> initDependencies() async {
   // packages
   sl.registerLazySingleton<InternetConnection>(
     () => InternetConnection(),
+  );
+
+  sl.registerLazySingleton<Box>(
+    () => box,
   );
 
   // core
@@ -71,12 +80,18 @@ void _initBlog() {
         supabaseClient: sl(),
       ),
     )
+    ..registerLazySingleton<BaseBlogLocalDataSource>(
+      () => BlogLocalDataSource(
+        box: sl(),
+      ),
+    )
 
     //Repository
     ..registerLazySingleton<BaseBlogRepository>(
       () => BlogRepository(
         blogRemoteDataSource: sl(),
         connectionChecker: sl(),
+        blogLocalDataSource: sl(),
       ),
     )
     //UseCases
@@ -87,6 +102,11 @@ void _initBlog() {
     )
     ..registerLazySingleton<GetAllBlogUsecase>(
       () => GetAllBlogUsecase(
+        blogRepository: sl(),
+      ),
+    )
+    ..registerLazySingleton<EditBlogUsecase>(
+      () => EditBlogUsecase(
         blogRepository: sl(),
       ),
     );

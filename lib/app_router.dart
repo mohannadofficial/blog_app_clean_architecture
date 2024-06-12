@@ -5,6 +5,7 @@ import 'package:blog/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:blog/features/blog/presenation/pages/add_new_blog_page.dart';
 import 'package:blog/features/blog/presenation/pages/blog_page.dart';
 import 'package:blog/features/blog/presenation/pages/blog_viewer_page.dart';
+import 'package:blog/features/blog/presenation/pages/edit_blog_page.dart';
 import 'package:blog/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,6 +14,7 @@ enum AppRouter {
   blog,
   blogView,
   addBlog,
+  editBlog,
   signIn,
   signUp,
 }
@@ -37,15 +39,26 @@ final goRoute = GoRouter(
                 builder: (context, state) => const AddNewBlogPage(),
               ),
               GoRoute(
-                  path: ':id',
-                  name: AppRouter.blogView.name,
-                  builder: (context, state) {
-                    final id = state.pathParameters['id'];
+                path: ':id',
+                name: AppRouter.blogView.name,
+                builder: (context, state) {
+                  final id = state.pathParameters['id'];
 
-                    return BlogViewerPage(
-                      id: id!,
-                    );
-                  }),
+                  return BlogViewerPage(
+                    id: id!,
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'edit/:id',
+                name: AppRouter.editBlog.name,
+                builder: (context, state) {
+                  final id = state.pathParameters['id'];
+                  return EditBlogPage(
+                    id: id!,
+                  );
+                },
+              ),
             ],
           ),
           GoRoute(

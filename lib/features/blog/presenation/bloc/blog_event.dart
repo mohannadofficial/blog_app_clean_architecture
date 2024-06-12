@@ -4,7 +4,7 @@ sealed class BlogEvent extends Equatable {
   const BlogEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class AddNewBlogEvent extends BlogEvent {
@@ -35,4 +35,35 @@ final class AddNewBlogEvent extends BlogEvent {
 final class GetAllBlogEvent extends BlogEvent {
   @override
   List<Object> get props => [];
+}
+
+final class EditBlogEvent extends BlogEvent {
+  final String id;
+  final String posterId;
+  final String title;
+  final String content;
+  final File? image;
+  final String? imageUrl;
+  final List<String> topics;
+
+  const EditBlogEvent({
+    required this.id,
+    required this.posterId,
+    required this.title,
+    required this.content,
+    this.image,
+    this.imageUrl,
+    required this.topics,
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+        posterId,
+        title,
+        content,
+        image,
+        imageUrl,
+        topics,
+      ];
 }
