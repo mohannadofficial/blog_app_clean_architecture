@@ -62,13 +62,13 @@ Before you begin, ensure you have the following software installed on your local
 1. Clone the Repository:
 
 ```bash
-git clone https://github.com/mohannadofficial/blog_app.git
+git clone https://github.com/mohannadofficial/blog_app_clean_architecture.git
 ```
 
 2. Install Dependencies:
 
 ```bash
-cd blog_app
+cd blog_app_clean_architecture
 flutter pub get
 ```
 
