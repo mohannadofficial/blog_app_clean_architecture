@@ -1,6 +1,6 @@
 # 📃 Flutter Blog App 🚀
 
-![Alt text](assets/banner.svg)
+![Alt text](assets/banner.png)
 
 Welcome to the Flutter Blog App! This application is built with Flutter using the Clean Architecture principles, BLoC state management, Supabase, GoRouter, and Hive for local storage.
 
@@ -47,7 +47,7 @@ lib/
 
 | Home Screen                            | Add Blog Screen                  | Edit Blog Screen                   |
 | -------------------------------------- | -------------------------------- | ---------------------------------- |
-| ![Home Screen](assets/home-screen.png) | ![Add Blog](assets/add-blog.png) | ![Edit Blog](assets/edit-blog.svg) |
+| ![Home Screen](assets/home-screen.png) | ![Add Blog](assets/add-blog.png) | ![Edit Blog](assets/edit-blog.png) |
 
 ## ✏️ Requirements
 
