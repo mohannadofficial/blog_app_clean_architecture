@@ -6,8 +6,8 @@ Future<void> initDependencies() async {
   await Hive.initFlutter();
 
   final supabase = await Supabase.initialize(
-    url: AppSecrets.supabaseUrl,
-    anonKey: AppSecrets.supabaseAnonKey,
+    url: AppSecret.supabaseUrl,
+    anonKey: AppSecret.supabaseAnonKey,
   );
 
   final box = await Hive.openBox('blogs');

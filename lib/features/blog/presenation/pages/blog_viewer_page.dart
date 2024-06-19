@@ -1,3 +1,4 @@
+import 'package:blog/core/common/cubit/app_user_cubit.dart';
 import 'package:blog/core/theme/app_pallete.dart';
 import 'package:blog/core/utils/calculate_reading_time.dart';
 import 'package:blog/core/utils/format_date.dart';
@@ -18,8 +19,17 @@ class BlogViewerPage extends StatelessWidget {
           (element) => element.id == id,
         );
 
+        final posterName =
+            (context.read<AppUserCubit>().state as AppUserLoggedIn).user.name;
+
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              blog.title,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           body: Scrollbar(
             child: SingleChildScrollView(
               child: Padding(
@@ -36,7 +46,7 @@ class BlogViewerPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'By ${blog.posterName}',
+                      'By $posterName',
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,

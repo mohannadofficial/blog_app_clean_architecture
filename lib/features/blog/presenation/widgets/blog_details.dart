@@ -95,6 +95,9 @@ class _BlogDetailsState extends State<BlogDetails> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          title: Text(
+            widget.blog != null ? 'Edit Blog' : 'Add New Blog',
+          ),
           actions: [
             IconButton(
               onPressed: () =>

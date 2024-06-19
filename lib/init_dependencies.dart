@@ -1,6 +1,6 @@
 import 'package:blog/core/common/cubit/app_user_cubit.dart';
 import 'package:blog/core/network/connection_checker.dart';
-import 'package:blog/core/secrets/app_secrets.dart';
+import 'package:blog/core/secrets/secret.dart';
 import 'package:blog/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog/features/auth/data/repository/auth_repository.dart';
 import 'package:blog/features/auth/domain/repository/base_auth_repository.dart';
